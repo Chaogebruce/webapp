@@ -9,7 +9,7 @@ from www.models import User
 def test(loop):
     yield from orm.create_pool(loop=loop,user='www-data', password='www-data', database='awesome')
 
-    u = User(name='chao', email='chao@example.com', passwd='1234567890', image='about:blank')
+    u = User(name='chen', email='chen@example.com', passwd='1234567890', image='about:blank')
 
     yield from u.save()
 
