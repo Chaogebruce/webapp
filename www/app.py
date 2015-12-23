@@ -7,12 +7,12 @@ __author__ = 'Bruce Chen'
 async web application.
 '''
 
+import logging;
 
-import logging; logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 import asyncio
 from aiohttp import web
-
 import orm
 
 
@@ -24,6 +24,8 @@ def init(loop):
     logging.info('server started at http://127.0.0.1:9000...')
     return srv
 
+
 loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
+
