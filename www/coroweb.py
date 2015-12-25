@@ -117,7 +117,7 @@ class RequestHandler(object):
                     kw = dict(**params)
                 else:
                     return web.HTTPBadRequest('Unsupported Connect-Type: %s' % request.connect_type)
-            if request.method == 'GEt':
+            if request.method == 'GET':
                 qs = request.query_string
                 if qs:
                     kw = dict()

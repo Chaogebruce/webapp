@@ -14,5 +14,5 @@ def index(request):
     users = yield from User.findAll()
     return {
         '__templates__': 'test.html',
-        'users':users
+        'users' : users
     }
