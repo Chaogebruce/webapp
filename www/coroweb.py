@@ -5,7 +5,7 @@ __author__ = 'Bruce Chen'
 import asyncio, os, inspect, logging, functools
 from urllib import parse
 from aiohttp import web
-from www.apis import APIError
+from apis import APIError
 
 
 def get(path):
@@ -21,7 +21,6 @@ def get(path):
         wrapper.__method__ = 'GET'
         wrapper.__router__ = path
         return wrapper
-
     return decorator
 
 
@@ -82,8 +81,7 @@ def has_request_args(fn):
         if name == 'request':
             found = True
             continue
-        if found and (
-                            param.kind != inspect.Parameter.VAR_POSITIONAL and param.kind != inspect.Parameter.VAR_KEYWORD and param.kind != inspect.Parameter.KEYWORD_ONLY):
+        if found and (param.kind != inspect.Parameter.VAR_POSITIONAL and param.kind != inspect.Parameter.VAR_KEYWORD and param.kind != inspect.Parameter.KEYWORD_ONLY):
             raise ValueError(
                 'request parameter must be  last named parameter in function: %s%s' % (fn.__name__, str(sig)))
     return found
@@ -142,7 +140,7 @@ class RequestHandler(object):
 def add_static(app):
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'static')
     app.router.add_static('/static/',path)
-    logging.info('add statoc %s => %s' % ('static',path))
+    logging.info('add static %s => %s' % ('static',path))
 
 def add_route(app, fn):
     method = getattr(fn, '__method__', None)
@@ -157,7 +155,7 @@ def add_route(app, fn):
 def add_routes(app, module_name):
     n = module_name.rfind('.')
     if n == (-1):
-        mod = __import__(module_name,globals(), locals())
+        mod = __import__(module_name, globals(), locals())
     else:
         name = module_name[n+1:]
         mod = getattr(__import__(module_name[:n], globals(), locals(),[name]), name)
