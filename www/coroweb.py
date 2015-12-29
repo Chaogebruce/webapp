@@ -102,10 +102,6 @@ class RequestHandler(object):
     @asyncio.coroutine
     def __call__(self, request):
         kw = None
-        logging.info(
-            ' %s : has_request_arg = %s,  has_var_kw_arg = %s, has_named_kw_args = %s, get_named_kw_args = %s, get_required_kw_args = %s ' % (
-            __name__, self._has_request_arg, self._has_var_kw_arg, self._has_named_kw_arg, self._named_kw_args,
-            self._required_kw_args))
         if self._has_var_kw_arg or self._required_kw_args or self._has_named_kw_arg:
             if request.method == 'POST':
                 if not request.connect_type:
