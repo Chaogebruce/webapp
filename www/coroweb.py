@@ -36,7 +36,7 @@ def post(path):
             return func(*args, **kw)
 
         wrapper.__method__ = 'POST'
-        wrapper.__router__ = path
+        wrapper.__route__ = path
         return wrapper
 
     return decorator
@@ -104,9 +104,9 @@ class RequestHandler(object):
         kw = None
         if self._has_var_kw_arg or self._required_kw_args or self._has_named_kw_arg:
             if request.method == 'POST':
-                if not request.connect_type:
-                    return web.HTTPBadRequest('Missing Connect-Type.')
-                ct = request.connect_type.lower()
+                if not request.content_type:
+                    return web.HTTPBadRequest('Missing Content-Type.')
+                ct = request.content_type.lower()
                 if ct.startswith('application/json'):
                     params = yield from request.json()
                     if not isinstance(params, dict):
@@ -126,7 +126,7 @@ class RequestHandler(object):
         if kw is None:
             kw = dict(**request.match_info)
         else:
-            if not self._has_var_kw_args and self._named_kw_args:
+            if not self._has_var_kw_arg and self._named_kw_args:
                 copy = dict()
                 for name in self._named_kw_args:
                     if name in kw:

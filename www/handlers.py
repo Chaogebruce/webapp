@@ -139,7 +139,11 @@ def api_register_user(*,email,name,passwd):
     yield from user.save()
     #make session cookie:
     r = web.Response()
-    r.set_cookie()
+    r.set_cookie(COOKIE_NAME, user2cookie(user, 86400), max_age=86400, httponly=True)
+    user.passwd = '******'
+    r.content_type = 'application/json'
+    r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
+    return r
 
 
 
