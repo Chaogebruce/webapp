@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__ = 'Bruce Chen'
+__author__ = 'Michael Liao'
 
 import asyncio, logging
 
@@ -19,7 +19,7 @@ def create_pool(loop, **kw):
         port=kw.get('port', 3306),
         user=kw['user'],
         password=kw['password'],
-        db=kw['database'],
+        db=kw['db'],
         charset=kw.get('charset', 'utf8'),
         autocommit=kw.get('autocommit', True),
         maxsize=kw.get('maxsize', 10),
@@ -120,12 +120,12 @@ class ModelMetaclass(type):
                 if v.primary_key:
                     # 找到主键:
                     if primaryKey:
-                        raise BaseException('Duplicate primary key for field: %s' % k)
+                        raise StandardError('Duplicate primary key for field: %s' % k)
                     primaryKey = k
                 else:
                     fields.append(k)
         if not primaryKey:
-            raise BaseException('Primary key not found.')
+            raise StandardError('Primary key not found.')
         for k in mappings.keys():
             attrs.pop(k)
         escaped_fields = list(map(lambda f: '`%s`' % f, fields))
@@ -222,7 +222,7 @@ class Model(dict, metaclass=ModelMetaclass):
         args.append(self.getValueOrDefault(self.__primary_key__))
         rows = yield from execute(self.__insert__, args)
         if rows != 1:
-            logging.warning('failed to insert record: affected rows: %s' % rows)
+            logging.warn('failed to insert record: affected rows: %s' % rows)
 
     @asyncio.coroutine
     def update(self):
@@ -230,11 +230,11 @@ class Model(dict, metaclass=ModelMetaclass):
         args.append(self.getValue(self.__primary_key__))
         rows = yield from execute(self.__update__, args)
         if rows != 1:
-            logging.warning('failed to update by primary key: affected rows: %s' % rows)
+            logging.warn('failed to update by primary key: affected rows: %s' % rows)
 
     @asyncio.coroutine
     def remove(self):
         args = [self.getValue(self.__primary_key__)]
         rows = yield from execute(self.__delete__, args)
         if rows != 1:
-            logging.warning('failed to remove by primary key: affected rows: %s' % rows)
+            logging.warn('failed to remove by primary key: affected rows: %s' % rows)

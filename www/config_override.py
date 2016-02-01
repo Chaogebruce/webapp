@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 '''
-Override configuration
+Override configurations.
 '''
-__author__ = 'Bruce Chen'
+
+__author__ = 'Michael Liao'
 
 configs = {
     'db': {

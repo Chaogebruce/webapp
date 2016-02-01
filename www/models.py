@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__ = 'Bruce Chen'
-
 '''
 Models for user, blog, comment.
 '''
 
-import time
-import uuid
+__author__ = 'Michael Liao'
 
-from orm  import Model, StringField, BooleanField, FloatField, TextField
+import time, uuid
+
+from orm import Model, StringField, BooleanField, FloatField, TextField
 
 def next_id():
     return '%015d%s000' % (int(time.time() * 1000), uuid.uuid4().hex)

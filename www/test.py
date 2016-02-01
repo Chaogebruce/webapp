@@ -1,21 +1,23 @@
-__author__ = 'Bruce Chen'
+class Solution(object):
+    def isUgly(self, num):
+        """
+        :type num: int
+        :rtype: bool
+        """
+        if num == 1:
+            return True
+        j = 0
+        ck =1
+        while num not in [2,3,5]:
+            for i in [2,3,5]:
+                k = num % i
+                if k == 0:
+                    j = i
+                ck = ck*k
+            if ck != 0:
+                return False
+            num = num / j
+        return True
 
-import asyncio
-import sys
-
-import www.orm as orm
-from www.models import User
-
-
-def test(loop):
-    yield from orm.create_pool(loop=loop,user='www-data', password='www-data', database='awesome')
-
-    u = yield from User.findAll()
-    print(u)
-
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(test(loop))
-loop.close()
-if loop.is_closed():
-    sys.exit(0)
+c = Solution
+c.isUgly(24)
